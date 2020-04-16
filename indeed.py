@@ -21,7 +21,11 @@ def extract_indeed_pages():
 
 
 def extract_job(html):
-    title = html.find("div", {"class": "title"}).find("a")["title"]
+    title = html.find("div", {"class": "title"})
+    if title is not None:
+        title = title.find("a")["title"]
+    else:
+        title = None
     company = html.find("span", {"class": "company"})
     if company is not None:
         company_anchor = company.find('a')
@@ -39,7 +43,7 @@ def extract_job(html):
 def extract_indeed_jobs(last_page):
     jobs = []
     for page in range(last_page):
-        print(f"Scarpping page {page}")
+        print(f"Scrapping Indeed: Page: {page}")
         result = requests.get(f"{URL}&start={page*LIMIT}")
         soup = BeautifulSoup(result.text, 'html.parser')
         results = soup.find_all("div", {"class": "jobsearch-SerpJobCard"})
