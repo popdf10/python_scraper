@@ -21,11 +21,7 @@ def extract_indeed_pages():
 
 
 def extract_job(html):
-    title = html.find("div", {"class": "title"})
-    if title is not None:
-        title = title.find("a")["title"]
-    else:
-        title = None
+    title = html.find("h2", {"class": "title"}).find("a")["title"]
     company = html.find("span", {"class": "company"})
     if company is not None:
         company_anchor = company.find('a')
